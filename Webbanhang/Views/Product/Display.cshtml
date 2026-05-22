@@ -1,8 +1,49 @@
 ﻿@model Webbanhang.Models.Product
+
 <h2>Product Details</h2>
-<div>
+
+<div class="card p-3">
     <h4>Name: @Model.Name</h4>
-    <h4>Price: @Model.Price</h4>
+    <h4>Price: @Model.Price.ToString("N0") VNĐ</h4>
     <h4>Description: @Model.Description</h4>
+    <hr />
+
+    <!-- Main Image -->
+    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+    {
+        <div class="mb-3">
+            <h5>Main Product Image</h5>
+            <img src="@Model.ImageUrl"
+                 alt="Product Image"
+                 class="img-thumbnail"
+                 style="max-width:300px; height:auto;" />
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Không có ảnh chính.</p>
+    }
+
+    <!-- Additional Images -->
+    @if (Model.ImageUrls != null && Model.ImageUrls.Any(x => !string.IsNullOrWhiteSpace(x)))
+    {
+        <div class="mb-3">
+            <h5>Additional Images</h5>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var imageUrl in Model.ImageUrls.Where(x => !string.IsNullOrWhiteSpace(x)))
+                {
+                    <img src="@imageUrl"
+                         alt="Additional Image"
+                         class="img-thumbnail"
+                         style="width:180px; height:180px; object-fit:cover;" />
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Không có ảnh bổ sung.</p>
+    }
 </div>
-<a asp-action="Index">Back to List</a>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

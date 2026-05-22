@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<Webbanhang.Models.Product>
+
 <h2>Products</h2>
-<table class="table">
+
+<table class="table table-bordered table-hover align-middle">
     <thead>
         <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
@@ -13,8 +16,21 @@
         @foreach (var product in Model)
         {
             <tr>
+                <td style="width:120px;">
+                    @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl"
+                             alt="@product.Name"
+                             class="img-thumbnail"
+                             style="width:100px; height:100px; object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">No image</span>
+                    }
+                </td>
                 <td>@product.Name</td>
-                <td>@product.Price</td>
+                <td>@product.Price.ToString("N0") VNĐ</td>
                 <td>@product.Description</td>
                 <td>
                     <a asp-action="Display" asp-route-id="@product.Id">View</a> |

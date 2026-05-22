@@ -7,34 +7,46 @@
 
 <h1>Add Product</h1>
 
-<form asp-action="Add" method="post" enctype="multipart/form-data">
+<form asp-action="Add"
+      method="post"
+      enctype="multipart/form-data">
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <!-- Product Name -->
+    <!-- Name -->
     <div class="form-group mb-3">
-        <label asp-for="Name" class="form-label"></label>
+        <label asp-for="Name"></label>
+
         <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+
+        <span asp-validation-for="Name"
+              class="text-danger"></span>
     </div>
 
-    <!-- Product Price -->
+    <!-- Price -->
     <div class="form-group mb-3">
-        <label asp-for="Price" class="form-label"></label>
+        <label asp-for="Price"></label>
+
         <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
+
+        <span asp-validation-for="Price"
+              class="text-danger"></span>
     </div>
 
-    <!-- Product Description -->
+    <!-- Description -->
     <div class="form-group mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+        <label asp-for="Description"></label>
+
+        <textarea asp-for="Description"
+                  class="form-control"></textarea>
+
+        <span asp-validation-for="Description"
+              class="text-danger"></span>
     </div>
 
     <!-- Category -->
     <div class="form-group mb-3">
-        <label asp-for="CategoryId" class="form-label">Category</label>
+        <label asp-for="CategoryId">Category</label>
 
         <select asp-for="CategoryId"
                 asp-items="ViewBag.Categories"
@@ -43,19 +55,35 @@
             <option value="">-- Select Category --</option>
 
         </select>
-
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
 
-    <!-- Upload Image -->
+    <!-- Product Image -->
     <div class="form-group mb-3">
-        <label class="form-label">Product Image</label>
-        <input type="file" name="imageFile" class="form-control" />
+        <label class="form-label">
+            Product Image
+        </label>
+
+        <input type="file"
+               name="imageUrl"
+               class="form-control" />
+    </div>
+
+    <!-- Additional Images -->
+    <div class="form-group mb-3">
+        <label class="form-label">
+            Additional Images
+        </label>
+
+        <input type="file"
+               name="imageUrls"
+               multiple
+               class="form-control" />
     </div>
 
     <!-- Submit -->
-    <button type="submit" class="btn btn-primary">
-        Add Product
+    <button type="submit"
+            class="btn btn-primary">
+        Add
     </button>
 
 </form>
