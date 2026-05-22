@@ -1,49 +1,90 @@
 ﻿@model Webbanhang.Models.Product
 
-<h2>Edit Product</h2>
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm: " + Model.Name;
+}
 
-<form asp-action="Update" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
-
-    <div class="form-group mb-3">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="container" style="max-width: 700px;">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-edit"></i> Chỉnh sửa sản phẩm</h2>
+        </div>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-5">
+            <form asp-action="Update" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
 
-    <div class="form-group mb-3">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+                <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
 
-    <div class="form-group mb-3">
-        <label>Current Main Image</label><br />
-        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
-        {
-            <img src="@Model.ImageUrl" class="img-thumbnail" style="max-width:200px;" />
-        }
-        else
-        {
-            <span class="text-muted">No image</span>
-        }
-    </div>
+                <!-- Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"><i class="fas fa-tag"></i> Tên sản phẩm</label>
+                    <input asp-for="Name" class="form-control form-control-lg" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
 
-    <div class="form-group mb-3">
-        <label>New Main Image</label>
-        <input type="file" name="imageUrl" class="form-control" accept="image/*" />
-    </div>
+                <!-- Price -->
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label"><i class="fas fa-money-bill-wave"></i> Giá</label>
+                    <input asp-for="Price" class="form-control form-control-lg" />
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
 
-    <div class="form-group mb-3">
-        <label>Additional Images</label>
-        <input type="file" name="imageUrls" class="form-control" accept="image/*" multiple />
-    </div>
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"><i class="fas fa-align-left"></i> Mô tả</label>
+                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-</form>
+                <!-- Main Image Section -->
+                <div class="mb-4">
+                    <h5 class="mb-3"><i class="fas fa-image"></i> Hình ảnh chính</h5>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-muted">Ảnh hiện tại:</p>
+                            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                            {
+                                <img src="@Model.ImageUrl" class="img-thumbnail w-100" style="max-height: 200px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 200px;">
+                                    <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted">Thay đổi ảnh:</p>
+                            <input type="file" name="imageUrl" class="form-control form-control-lg" accept="image/*" />
+                            <small class="form-text text-muted d-block mt-2">Để trống nếu không muốn thay đổi</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Images -->
+                <div class="mb-4">
+                    <h5 class="mb-3"><i class="fas fa-images"></i> Hình ảnh bổ sung</h5>
+                    <input type="file" name="imageUrls" multiple class="form-control form-control-lg" accept="image/*" />
+                    <small class="form-text text-muted d-block mt-2">Có thể chọn nhiều ảnh để thêm</small>
+                </div>
+
+                <!-- Submit & Cancel -->
+                <div class="d-flex gap-2 pt-3">
+                    <button type="submit" class="btn btn-warning btn-lg">
+                        <i class="fas fa-save"></i> Cập nhật
+                    </button>
+                    <a asp-action="Display" asp-route-id="@Model.Id" class="btn btn-info btn-lg">
+                        <i class="fas fa-eye"></i> Xem chi tiết
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-times"></i> Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,49 +1,97 @@
 ﻿@model Webbanhang.Models.Product
 
-<h2>Product Details</h2>
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm: " + Model.Name;
+}
 
-<div class="card p-3">
-    <h4>Name: @Model.Name</h4>
-    <h4>Price: @Model.Price.ToString("N0") VNĐ</h4>
-    <h4>Description: @Model.Description</h4>
-    <hr />
-
-    <!-- Main Image -->
-    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
-    {
-        <div class="mb-3">
-            <h5>Main Product Image</h5>
-            <img src="@Model.ImageUrl"
-                 alt="Product Image"
-                 class="img-thumbnail"
-                 style="max-width:300px; height:auto;" />
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">Sản phẩm</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
+                </ol>
+            </nav>
         </div>
-    }
-    else
-    {
-        <p class="text-muted">Không có ảnh chính.</p>
-    }
+    </div>
+
+    <div class="row">
+        <!-- Main Image -->
+        <div class="col-md-5 mb-4">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <div class="card border-0 shadow-sm">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="card-img-top rounded" style="height:400px; object-fit:cover;" />
+                </div>
+            }
+            else
+            {
+                <div class="card border-0 shadow-sm d-flex align-items-center justify-content-center" style="height:400px;">
+                    <i class="fas fa-image text-muted" style="font-size:5rem;"></i>
+                </div>
+            }
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm p-4">
+                <h1 class="mb-3">@Model.Name</h1>
+
+                <div class="mb-3">
+                    <span class="badge bg-primary me-2">Sản phẩm</span>
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+                    <h3 class="text-danger fw-bold">@Model.Price.ToString("N0") ₫</h3>
+                    <p class="text-muted">Giá bao gồm VAT</p>
+                </div>
+
+                <div class="mb-4">
+                    <h5>Mô tả</h5>
+                    <p class="lead">@Model.Description</p>
+                </div>
+
+                <div class="d-flex gap-2 mb-4">
+                    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
+                        <i class="fas fa-edit"></i> Chỉnh sửa
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-lg" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                        <i class="fas fa-trash"></i> Xóa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Additional Images -->
     @if (Model.ImageUrls != null && Model.ImageUrls.Any(x => !string.IsNullOrWhiteSpace(x)))
     {
-        <div class="mb-3">
-            <h5>Additional Images</h5>
-            <div class="d-flex flex-wrap gap-2">
-                @foreach (var imageUrl in Model.ImageUrls.Where(x => !string.IsNullOrWhiteSpace(x)))
-                {
-                    <img src="@imageUrl"
-                         alt="Additional Image"
-                         class="img-thumbnail"
-                         style="width:180px; height:180px; object-fit:cover;" />
-                }
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="mb-4"><i class="fas fa-images"></i> Hình ảnh khác</h3>
+                <div class="row g-3">
+                    @foreach (var imageUrl in Model.ImageUrls.Where(x => !string.IsNullOrWhiteSpace(x)))
+                    {
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card border-0 shadow-sm overflow-hidden">
+                                <img src="@imageUrl" alt="Ảnh sản phẩm" class="card-img-top" style="height:250px; object-fit:cover;" />
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     }
-    else
-    {
-        <p class="text-muted">Không có ảnh bổ sung.</p>
-    }
-</div>
 
-<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
+    <div class="row mt-5 mb-5">
+        <div class="col-12">
+            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>

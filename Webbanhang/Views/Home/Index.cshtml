@@ -1,8 +1,230 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Webbanhang.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang chủ - Webbanhang";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero Section -->
+<section class="hero fade-in">
+    <div class="container">
+        <h1>Chào mừng đến Webbanhang</h1>
+        <p class="lead">Khám phá những sản phẩm chất lượng cao với giá cạnh tranh nhất</p>
+        <div class="mt-4">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-light btn-lg">
+                <i class="fas fa-shopping-cart"></i> Mua sắm ngay
+            </a>
+            <a href="#about" class="btn btn-outline-light btn-lg ms-2">
+                <i class="fas fa-info-circle"></i> Tìm hiểu thêm
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Tại sao chọn Webbanhang?</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <i class="fas fa-truck"></i>
+                    <h4>Giao hàng nhanh</h4>
+                    <p>Giao hàng toàn quốc trong 1-3 ngày làm việc với chi phí hợp lý.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <i class="fas fa-lock"></i>
+                    <h4>Thanh toán an toàn</h4>
+                    <p>Hỗ trợ nhiều phương thức thanh toán với bảo mật tối đa.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <i class="fas fa-redo"></i>
+                    <h4>Đổi trả dễ dàng</h4>
+                    <p>Chính sách đổi trả 30 ngày không hỏi lý do.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-box">
+                    <i class="fas fa-headset"></i>
+                    <h4>Hỗ trợ 24/7</h4>
+                    <p>Đội ngũ chuyên viên luôn sẵn sàng giúp đỡ bạn mọi lúc.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section id="products" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">
+            <i class="fas fa-star"></i> Sản phẩm nổi bật
+        </h2>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="row g-4">
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card product-card h-100">
+                            <div class="position-relative overflow-hidden" style="height: 250px; background-color: #f0f0f0;">
+                                @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                                {
+                                    <img src="@product.ImageUrl" class="product-image" alt="@product.Name">
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center justify-content-center h-100">
+                                        <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                                    </div>
+                                }
+                                <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+                                    <i class="fas fa-fire"></i> Hot
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text text-muted">
+                                    @if (!string.IsNullOrWhiteSpace(product.Description))
+                                    {
+                                        @(product.Description.Length > 80 ? product.Description.Substring(0, 80) + "..." : product.Description)
+                                    }
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">@product.Price.ToString("N0")₫</span>
+                                    <a asp-controller="Product" asp-action="Display" asp-route-id="@product.Id" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-eye"></i> Xem
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="text-center mt-5">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="fas fa-eye"></i> Xem tất cả sản phẩm
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-inbox fa-3x mb-3"></i>
+                <h4>Chưa có sản phẩm</h4>
+                <p>Hiện tại chúng tôi chưa có sản phẩm nào. Vui lòng quay lại sau!</p>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Về chúng tôi</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="bg-white p-4 rounded shadow-sm" style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-image text-muted" style="font-size: 5rem;"></i>
+                </div>
+            </div>
+            <div class="col-md-6 ps-md-4">
+                <h3 class="mb-3">Webbanhang - Nơi tin cậy của hàng triệu khách hàng</h3>
+                <p>
+                    Được thành lập vào năm 2020, Webbanhang đã trở thành một trong những nền tảng thương mại điện tử
+                    hàng đầu tại Việt Nam. Chúng tôi cam kết cung cấp các sản phẩm chất lượng cao với giá cạnh tranh nhất.
+                </p>
+                <p>
+                    Với đội ngũ chuyên nghiệp, chúng tôi luôn đặt khách hàng lên hàng đầu và không ngừng cải tiến
+                    dịch vụ để mang lại trải nghiệm mua sắm tốt nhất.
+                </p>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check-circle text-success"></i> 1 triệu+ sản phẩm</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success"></i> 500K+ khách hàng hài lòng</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Giao hàng toàn quốc</li>
+                    <li><i class="fas fa-check-circle text-success"></i> Hỗ trợ 24/7</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2 class="mb-3">Đăng ký nhận tin tức</h2>
+                <p class="lead mb-4">Nhận những ưu đãi và thông tin sản phẩm mới trực tiếp vào email của bạn</p>
+                <div class="input-group input-group-lg">
+                    <input type="email" class="form-control" placeholder="Nhập email của bạn...">
+                    <button class="btn btn-warning text-dark fw-bold" type="button">
+                        <i class="fas fa-paper-plane"></i> Đăng ký
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Liên hệ chúng tôi</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h4 class="mb-3">Gửi tin nhắn cho chúng tôi</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="name" placeholder="Nhập họ tên của bạn">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Nhập email của bạn">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Tin nhắn</label>
+                        <textarea class="form-control" id="message" rows="5" placeholder="Nhập tin nhắn của bạn"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="fas fa-send"></i> Gửi tin nhắn
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h4 class="mb-4">Thông tin liên hệ</h4>
+                <div class="mb-4">
+                    <h5 class="mb-2"><i class="fas fa-map-marker-alt text-primary"></i> Địa chỉ</h5>
+                    <p class="text-muted">123 Đường ABC, Quận Đống Đa, Hà Nội, Việt Nam</p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="mb-2"><i class="fas fa-phone text-primary"></i> Điện thoại</h5>
+                    <p class="text-muted">
+                        <a href="tel:+841234567890" class="text-decoration-none">+84 123 456 789</a><br>
+                        <a href="tel:+841987654321" class="text-decoration-none">+84 198 765 432</a>
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="mb-2"><i class="fas fa-envelope text-primary"></i> Email</h5>
+                    <p class="text-muted">
+                        <a href="mailto:info@webbanhang.com" class="text-decoration-none">info@webbanhang.com</a><br>
+                        <a href="mailto:support@webbanhang.com" class="text-decoration-none">support@webbanhang.com</a>
+                    </p>
+                </div>
+                <div>
+                    <h5 class="mb-2"><i class="fas fa-clock text-primary"></i> Giờ làm việc</h5>
+                    <p class="text-muted">
+                        Thứ 2 - Thứ 7: 8:00 - 20:00<br>
+                        Chủ nhật: 10:00 - 18:00
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
