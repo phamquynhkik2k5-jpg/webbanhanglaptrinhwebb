@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Webbanhang.Models;
 
 namespace Webbanhang.Repositories
 {
-    using System.Collections.Generic;
-    using Webbanhang.Models;
-   
     public interface IProductRepository
     {
-        IEnumerable<Product> GetAll();
-        Product GetById(int id);
-        void Add(Product product);
-        void Update(Product product);
-        void Delete(int id);
+        Task<IEnumerable<Product>> GetAllAsync();
+
+        // Sử dụng Product? (nullable) để tránh cảnh báo nếu không tìm thấy sản phẩm
+        Task<Product?> GetByIdAsync(int id);
+
+        Task AddAsync(Product product);
+
+        Task UpdateAsync(Product product);
+
+        Task DeleteAsync(int id);
     }
 }

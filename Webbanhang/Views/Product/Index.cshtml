@@ -4,82 +4,64 @@
     ViewData["Title"] = "Danh sách sản phẩm";
 }
 
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h2><i class="fas fa-box"></i> Danh sách sản phẩm</h2>
-        </div>
-        <div class="col-md-4 text-end">
-            <a asp-action="Add" class="btn btn-success">
-                <i class="fas fa-plus"></i> Thêm sản phẩm mới
-            </a>
-        </div>
+<div class="container mt-4 fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-boxes text-primary"></i> Quản lý sản phẩm</h2>
+        <a asp-action="Add" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Thêm sản phẩm mới
+        </a>
     </div>
 
-    @if (Model != null && Model.Any())
-    {
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
-                <thead class="table-primary">
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 100px;">Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá bán</th>
+                    <th>Mô tả</th>
+                    <th>Danh mục</th>
+                    <th class="text-center" style="width: 220px;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
                     <tr>
-                        <th style="width:120px;"><i class="fas fa-image"></i> Hình ảnh</th>
-                        <th><i class="fas fa-tag"></i> Tên sản phẩm</th>
-                        <th style="width:150px;"><i class="fas fa-money-bill"></i> Giá</th>
-                        <th><i class="fas fa-align-left"></i> Mô tả</th>
-                        <th style="width:200px;"><i class="fas fa-cogs"></i> Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model)
-                    {
-                        <tr>
-                            <td style="width:120px;">
-                                @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
-                                {
-                                    <img src="@product.ImageUrl"
-                                         alt="@product.Name"
-                                         class="img-thumbnail"
-                                         style="width:100px; height:100px; object-fit:cover;" />
-                                }
-                                else
-                                {
-                                    <div class="bg-light d-flex align-items-center justify-content-center" style="width:100px; height:100px; border-radius:5px;">
-                                        <i class="fas fa-image text-muted" style="font-size:2rem;"></i>
-                                    </div>
-                                }
-                            </td>
-                            <td>
-                                <strong>@product.Name</strong>
-                            </td>
-                            <td>
-                                <span class="badge bg-success fs-6">@product.Price.ToString("N0") ₫</span>
-                            </td>
-                            <td>
-                                <small class="text-muted">@(product.Description?.Length > 50 ? product.Description.Substring(0, 50) + "..." : product.Description)</small>
-                            </td>
-                            <td>
-                                <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-sm btn-info" title="Xem chi tiết">
-                                    <i class="fas fa-eye"></i> Xem
+                        <td>
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" alt="@product.Name" class="rounded" style="width: 70px; height: 70px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                                    <i class="fas fa-image text-muted"></i>
+                                </div>
+                            }
+                        </td>
+                        <td class="fw-bold text-dark">@product.Name</td>
+                        <td class="text-danger fw-bold">@product.Price.ToString("N0") ₫</td>
+                        <td class="text-muted text-truncate" style="max-width: 250px;">@product.Description</td>
+                        <td>
+                            <span class="badge bg-secondary">@product.Category?.Name</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group gap-1">
+                                <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-sm btn-outline-info" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i> Chi tiết
                                 </a>
-                                <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-sm btn-warning" title="Chỉnh sửa">
+                                <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-sm btn-outline-warning" title="Sửa">
                                     <i class="fas fa-edit"></i> Sửa
                                 </a>
-                                <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger" title="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">
+                                <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-outline-danger" title="Xóa">
                                     <i class="fas fa-trash"></i> Xóa
                                 </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div class="alert alert-info text-center py-5">
-            <i class="fas fa-inbox fa-3x mb-3"></i>
-            <h4>Không có sản phẩm</h4>
-            <p>Hiện tại chưa có sản phẩm nào. <a asp-action="Add" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Thêm sản phẩm</a></p>
-        </div>
-    }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

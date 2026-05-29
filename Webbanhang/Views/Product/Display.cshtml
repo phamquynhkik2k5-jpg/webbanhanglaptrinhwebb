@@ -4,9 +4,9 @@
     ViewData["Title"] = "Chi tiết sản phẩm: " + Model.Name;
 }
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
+<div class="container mt-4 fade-in">
+    <div class="row mb-3">
+        <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
@@ -18,67 +18,56 @@
     </div>
 
     <div class="row">
-        <!-- Main Image -->
         <div class="col-md-5 mb-4">
             @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
             {
                 <div class="card border-0 shadow-sm">
-                    <img src="@Model.ImageUrl" alt="@Model.Name" class="card-img-top rounded" style="height:400px; object-fit:cover;" />
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="card-img-top rounded img-fluid" style="height:400px; object-fit:cover;" />
                 </div>
             }
             else
             {
-                <div class="card border-0 shadow-sm d-flex align-items-center justify-content-center" style="height:400px;">
+                <div class="card border-0 shadow-sm d-flex align-items-center justify-content-center" style="height:400px; background-color:#e9ecef;">
                     <i class="fas fa-image text-muted" style="font-size:5rem;"></i>
                 </div>
             }
         </div>
 
-        <!-- Product Info -->
         <div class="col-md-7">
-            <div class="card border-0 shadow-sm p-4">
-                <h1 class="mb-3">@Model.Name</h1>
-
-                <div class="mb-3">
-                    <span class="badge bg-primary me-2">Sản phẩm</span>
-                </div>
-
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <span class="badge bg-primary p-2 align-self-start mb-2">@Model.Category?.Name</span>
+                <h1 class="mb-3 text-dark fw-bold">@Model.Name</h1>
                 <hr>
-
                 <div class="mb-4">
-                    <h3 class="text-danger fw-bold">@Model.Price.ToString("N0") ₫</h3>
-                    <p class="text-muted">Giá bao gồm VAT</p>
+                    <h3 class="text-danger fw-bold display-6">@Model.Price.ToString("N0") ₫</h3>
+                    <small class="text-muted">* Giá đã bao gồm thuế VAT và bảo hành chính hãng</small>
                 </div>
 
                 <div class="mb-4">
-                    <h5>Mô tả</h5>
-                    <p class="lead">@Model.Description</p>
+                    <h5 class="fw-bold"><i class="fas fa-file-alt text-secondary"></i> Mô tả sản phẩm:</h5>
+                    <p class="text-muted" style="white-space: pre-line; line-height: 1.7;">@Model.Description</p>
                 </div>
 
-                <div class="d-flex gap-2 mb-4">
-                    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
-                        <i class="fas fa-edit"></i> Chỉnh sửa
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-lg" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
-                        <i class="fas fa-trash"></i> Xóa
-                    </a>
+                <div class="d-flex gap-2 mt-auto border-top pt-3">
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg"><i class="fas fa-arrow-left"></i> Danh sách</a>
+                    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning btn-lg text-white"><i class="fas fa-edit"></i> Chỉnh sửa</a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i> Xóa</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Additional Images -->
-    @if (Model.ImageUrls != null && Model.ImageUrls.Any(x => !string.IsNullOrWhiteSpace(x)))
+    @if (Model.Images != null && Model.Images.Any(x => !string.IsNullOrWhiteSpace(x.Url)))
     {
         <div class="row mt-5">
             <div class="col-12">
-                <h3 class="mb-4"><i class="fas fa-images"></i> Hình ảnh khác</h3>
+                <h4 class="mb-3 fw-bold"><i class="fas fa-images text-success"></i> Hình ảnh cận cảnh thực tế</h4>
                 <div class="row g-3">
-                    @foreach (var imageUrl in Model.ImageUrls.Where(x => !string.IsNullOrWhiteSpace(x)))
+                    @foreach (var image in Model.Images.Where(x => !string.IsNullOrWhiteSpace(x.Url)))
                     {
                         <div class="col-md-3 col-sm-6">
-                            <div class="card border-0 shadow-sm overflow-hidden">
-                                <img src="@imageUrl" alt="Ảnh sản phẩm" class="card-img-top" style="height:250px; object-fit:cover;" />
+                            <div class="card border-0 shadow-sm overflow-hidden product-card">
+                                <img src="@image.Url" alt="Ảnh chi tiết phụ" class="card-img-top" style="height:220px; object-fit:cover;" />
                             </div>
                         </div>
                     }
@@ -86,12 +75,4 @@
             </div>
         </div>
     }
-
-    <div class="row mt-5 mb-5">
-        <div class="col-12">
-            <a asp-action="Index" class="btn btn-secondary btn-lg">
-                <i class="fas fa-arrow-left"></i> Quay lại danh sách
-            </a>
-        </div>
-    </div>
 </div>

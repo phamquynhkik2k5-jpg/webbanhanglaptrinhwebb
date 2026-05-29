@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Webbanhang.Models;
 using Webbanhang.Repositories;
 
@@ -18,10 +20,14 @@ namespace Webbanhang.Controllers
             _productRepository = productRepository;
         }
 
-        public IActionResult Index()
+        // Chuyển hàm Index thành async Task<IActionResult>
+        public async Task<IActionResult> Index()
         {
-            // Lấy 6 sản phẩm mới nhất để hiển thị trên trang chủ
-            var products = _productRepository.GetAll()
+            // 1. Đợi lấy toàn bộ danh sách sản phẩm từ Repository một cách bất đồng bộ
+            var allProducts = await _productRepository.GetAllAsync();
+
+            // 2. Sử dụng LINQ trên bộ nhớ để lọc ra 6 sản phẩm mới nhất
+            var products = allProducts
                 .OrderByDescending(p => p.Id)
                 .Take(6)
                 .ToList();
