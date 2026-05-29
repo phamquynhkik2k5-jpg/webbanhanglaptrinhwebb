@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakura Luxury - Landing Page Premium</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a1a;
+            --dark-tertiary: #2a2a2a;
+            --wood-brown: #3d2817;
+            --warm-gold: #d4af37;
+            --soft-gold: #e8d4b8;
+            --text-light: #f5f5f5;
+            --text-muted: #b0b0b0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1410 100%);
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 3D Background dengan Particles */
+        .background-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            background: radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 70%, rgba(61, 40, 23, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .fog-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(232, 212, 184, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(61, 40, 23, 0.05) 0%, transparent 50%);
+            animation: fogFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes fogFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        /* Particles Animation */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: var(--warm-gold);
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-item {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--warm-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item a:hover {
+            color: var(--warm-gold);
+        }
+
+        .nav-item a:hover::after {
+            width: 100%;
+        }
+
+        /* Content Wrapper */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 4rem;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--warm-gold);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--text-light) 0%, var(--soft-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--warm-gold) 0%, var(--soft-gold) 100%);
+            color: #0a0a0a;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Section Styles */
+        .section {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -1px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .section-title span {
+            color: var(--warm-gold);
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.5) 0%, rgba(61, 40, 23, 0.3) 100%);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .about-text {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .about-features {
+            list-style: none;
+        }
+
+        .about-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .about-features li:nth-child(1) { animation-delay: 0.3s; }
+        .about-features li:nth-child(2) { animation-delay: 0.4s; }
+        .about-features li:nth-child(3) { animation-delay: 0.5s; }
+        .about-features li:nth-child(4) { animation-delay: 0.6s; }
+
+        .about-features li::before {
+            content: '✦';
+            color: var(--warm-gold);
+            font-size: 1rem;
+        }
+
+        .about-image {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(61, 40, 23, 0.2) 100%);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+            overflow: hidden;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Menu Section */
+        .menu {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(42, 42, 42, 0.5) 100%);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-card {
+            background: rgba(26, 26, 26, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .menu-card:nth-child(1) { animation-delay: 0.2s; }
+        .menu-card:nth-child(2) { animation-delay: 0.3s; }
+        .menu-card:nth-child(3) { animation-delay: 0.4s; }
+        .menu-card:nth-child(4) { animation-delay: 0.5s; }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .menu-card:hover::before {
+            left: 100%;
+        }
+
+        .menu-card:hover {
+            background: rgba(61, 40, 23, 0.4);
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .menu-card-icon {
+            font-size: 2.5rem;
+            color: var(--warm-gold);
+            margin-bottom: 1rem;
+        }
+
+        .menu-card-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .menu-card-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Booking Section */
+        .booking {
+            background: linear-gradient(135deg, rgba(61, 40, 23, 0.2) 0%, rgba(26, 26, 26, 0.5) 100%);
+        }
+
+        .booking-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .booking-form {
+            background: rgba(26, 26, 26, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem;
+            border-radius: 2px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.3s; }
+        .form-group:nth-child(2) { animation-delay: 0.4s; }
+        .form-group:nth-child(3) { animation-delay: 0.5s; }
+        .form-group:nth-child(4) { animation-delay: 0.6s; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(42, 42, 42, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--text-light);
+            font-family: inherit;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--warm-gold);
+            background: rgba(61, 40, 23, 0.3);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--warm-gold) 0%, var(--soft-gold) 100%);
+            color: #0a0a0a;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.7s forwards;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.8);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        footer a {
+            color: var(--warm-gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--soft-gold);
+        }
+
+        /* Scroll Animation Observer */
+        .scroll-animate {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-menu {
+                gap: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .booking-form {
+                padding: 2rem;
+            }
+        }
+
+        /* Smooth Parallax Effect */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-3d">
+        <div class="fog-layer"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <nav>
+        <div class="logo">✦ Sakura</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#hero">Home</a></li>
+            <li class="nav-item"><a href="#about">About</a></li>
+            <li class="nav-item"><a href="#menu">Menu</a></li>
+            <li class="nav-item"><a href="#booking">Booking</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <p class="hero-subtitle">Welcome to elegance</p>
+                <h1 class="hero-title">Sakura Luxury Experience</h1>
+                <p class="hero-description">
+                    Khám phá sự kết hợp hoàn hảo giữa truyền thống Nhật Bản và công nghệ tương lai.<br>
+                    Trải nghiệm cao cấp trong không gian tối giản và tinh tế.
+                </p>
+                <a href="#booking" class="cta-button">Book Now</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section about" id="about">
+            <div class="section-inner">
+                <h2 class="section-title">About <span>Sakura</span></h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>
+                            Chúng tôi là người tiên phong trong việc kết hợp triết lý tối giản Nhật Bản 
+                            với công nghệ hiện đại, tạo nên một không gian độc đáo.
+                        </p>
+                        <ul class="about-features">
+                            <li>Thiết kế tối giản kiểu Apple</li>
+                            <li>Phong cách Nhật Bản hiện đại</li>
+                            <li>Dịch vụ cao cấp 24/7</li>
+                            <li>Trải nghiệm cinematic premium</li>
+                        </ul>
+                    </div>
+                    <div class="about-image">
+                        <i class="fas fa-spa" style="font-size: 5rem; color: rgba(212, 175, 55, 0.3);"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section class="section menu" id="menu">
+            <div class="section-inner">
+                <h2 class="section-title">Our <span>Menu</span> Collections</h2>
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <div class="menu-card-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="menu-card-title">Premium Collection</h3>
+                        <p class="menu-card-description">
+                            Bộ sưu tập cao cấp được chọn lọc kỹ lưỡng từ các thương hiệu tốt nhất.
+                        </p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3 class="menu-card-title">VIP Exclusive</h3>
+                        <p class="menu-card-description">
+                            Những trải nghiệm độc quyền dành riêng cho các khách hàng VIP.
+                        </p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-icon">
+                            <i class="fas fa-mountain-sun"></i>
+                        </div>
+                        <h3 class="menu-card-title">Zen Experience</h3>
+                        <p class="menu-card-description">
+                            Thư giãn hoàn toàn trong không gian tịnh lặng với phong cách zen.
+                        </p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-icon">
+                            <i class="fas fa-sparkles"></i>
+                        </div>
+                        <h3 class="menu-card-title">Luxury Plus</h3>
+                        <p class="menu-card-description">
+                            Dịch vụ bổ sung với những chi tiết tinh tế nhất để nâng cao trải nghiệm.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section class="section booking" id="booking">
+            <div class="section-inner">
+                <h2 class="section-title">Make Your <span>Reservation</span></h2>
+                <div class="booking-container">
+                    <form class="booking-form">
+                        <div class="form-group">
+                            <label for="name">Họ và tên</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Ngày đặt</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Dịch vụ</label>
+                            <select id="service" name="service" required>
+                                <option value="">Chọn dịch vụ</option>
+                                <option value="premium">Premium Collection</option>
+                                <option value="vip">VIP Exclusive</option>
+                                <option value="zen">Zen Experience</option>
+                                <option value="luxury">Luxury Plus</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Ghi chú thêm</label>
+                            <textarea id="message" name="message"></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Reserve Now</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Sakura Luxury. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Contact</a></p>
+    </footer>
+
+    <script>
+        // Generate Particles
+        function generateParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 1;
+                const xPos = Math.random() * 100;
+                const duration = Math.random() * 10 + 15;
+                const delay = Math.random() * 5;
+
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = xPos + '%';
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = delay + 's';
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Scroll Animation Observer
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            });
+
+            // Observe all menu cards
+            document.querySelectorAll('.menu-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Observe form groups
+            document.querySelectorAll('.form-group').forEach(group => {
+                observer.observe(group);
+            });
+        }
+
+        // Parallax Scrolling Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.background-3d');
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+
+            // Smooth scroll animation for sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight) {
+                    const progress = 1 - sectionTop / windowHeight;
+                    section.style.opacity = Math.min(1, 0.5 + progress * 0.5);
+                }
+            });
+        });
+
+        // Form Submit Handler
+        document.querySelector('.booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const date = document.getElementById('date').value;
+            const service = document.getElementById('service').value;
+            
+            // Show success message
+            alert(`Cảm ơn ${name}! Chúng tôi sẽ liên hệ với bạn tại ${email} để xác nhận đặt chỗ.`);
+            this.reset();
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            generateParticles();
+            observeElements();
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-item a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
