@@ -1,0 +1,169 @@
+@using Webbanhang.Models
+@{
+    ViewData["Title"] = "Sakura Luxury - Landing Page Premium";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="~/css/landing-premium.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-3d">
+        <div class="fog-layer"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">✦ Sakura</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#hero">Trang chủ</a></li>
+            <li class="nav-item"><a href="#about">Về chúng tôi</a></li>
+            <li class="nav-item"><a href="#menu">Danh mục</a></li>
+            <li class="nav-item"><a href="#booking">Đặt chỗ</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <p class="hero-subtitle">Chào mừng đến với tinh hoa</p>
+                <h1 class="hero-title">Sakura Luxury Experience</h1>
+                <p class="hero-description">
+                    Khám phá sự kết hợp hoàn hảo giữa truyền thống Nhật Bản và công nghệ tương lai.<br>
+                    Trải nghiệm cao cấp trong không gian tối giản và tinh tế.
+                </p>
+                <a href="#booking" class="cta-button">Đặt Chỗ Ngay</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section about" id="about">
+            <div class="section-inner">
+                <h2 class="section-title">Về <span>Sakura</span></h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>
+                            Chúng tôi là người tiên phong trong việc kết hợp triết lý tối giản Nhật Bản 
+                            với công nghệ hiện đại, tạo nên một không gian độc đáo và tinh tế.
+                        </p>
+                        <ul class="about-features">
+                            <li>Thiết kế tối giản kiểu Apple</li>
+                            <li>Phong cách Nhật Bản hiện đại</li>
+                            <li>Dịch vụ cao cấp 24/7</li>
+                            <li>Trải nghiệm cinematic premium</li>
+                        </ul>
+                    </div>
+                    <div class="about-image">
+                        <i class="fas fa-spa" style="font-size: 5rem; color: rgba(212, 175, 55, 0.3);"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu/Categories Section -->
+        <section class="section menu" id="menu">
+            <div class="section-inner">
+                <h2 class="section-title">Danh Mục <span>Sản Phẩm</span></h2>
+                
+                <!-- Category Tabs -->
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">Tất cả</button>
+                    @if (ViewBag.Categories is IEnumerable<Category> categories)
+                    {
+                        @foreach (var category in categories)
+                        {
+                            <button class="category-tab" data-category="@category.Id">@category.Name</button>
+                        }
+                    }
+                </div>
+
+                <!-- Products Grid -->
+                <div class="menu-grid" id="productsGrid">
+                    @if (ViewBag.FeaturedProducts is IEnumerable<Product> products)
+                    {
+                        @foreach (var product in products)
+                        {
+                            <div class="menu-card" data-category="@product.CategoryId">
+                                <div class="menu-card-image">
+                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                    {
+                                        <img src="@product.ImageUrl" alt="@product.Name">
+                                    }
+                                    else
+                                    {
+                                        <div class="placeholder-image">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="menu-card-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h3 class="menu-card-title">@product.Name</h3>
+                                <p class="menu-card-price">@product.Price.ToString("N0") ₫</p>
+                                <p class="menu-card-description">@product.Description.Substring(0, Math.Min(60, product.Description.Length))...</p>
+                                <a href="/Product/Display/@product.Id" class="menu-card-link">Xem chi tiết →</a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section class="section booking" id="booking">
+            <div class="section-inner">
+                <h2 class="section-title">Đặt <span>Chỗ Của Bạn</span></h2>
+                <div class="booking-container">
+                    <form class="booking-form" id="bookingForm">
+                        <div class="form-group">
+                            <label for="name">Họ và tên</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Ngày đặt</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Dịch vụ</label>
+                            <select id="service" name="service" required>
+                                <option value="">Chọn dịch vụ</option>
+                                @if (ViewBag.Categories is IEnumerable<Category> categoriesList)
+                                {
+                                    @foreach (var cat in categoriesList)
+                                    {
+                                        <option value="@cat.Id">@cat.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Ghi chú th��m</label>
+                            <textarea id="message" name="message"></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Đặt Chỗ Ngay</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Sakura Luxury. Tất cả quyền được bảo lưu. | <a href="#">Chính sách bảo mật</a> | <a href="#">Liên hệ</a></p>
+    </footer>
+
+    <script src="~/js/landing-premium.js"></script>
+</body>
+</html>
